@@ -17,10 +17,12 @@ function BottomBar(props: Props) {
           msg: "",
       },
       onSubmit: ({msg}, {setSubmitting}) => {
+        if (!msg) return setSubmitting(false)
         connection.current.emit("sendMessage", {
             username: props.username,
             message: msg
         })
+        setSubmitting(false)
       }
   })
 

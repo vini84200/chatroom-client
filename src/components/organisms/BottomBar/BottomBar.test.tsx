@@ -67,9 +67,9 @@ describe("Send Message Field", () => {
   it("Disconects from socket when it finishes", () => {
     const wrapperMount = mount(<BottomBar username="anonimous" />);
     expect(socketMock.disconnect).toHaveBeenCalledTimes(0);
-    act(()=> {
+    act(() => {
       wrapperMount.unmount();
-    })
+    });
     expect(socketMock.disconnect).toBeCalled();
   });
 
@@ -77,25 +77,29 @@ describe("Send Message Field", () => {
     const react = render(<BottomBar username="anonimous" />);
 
     expect(socketMock.emit).toHaveBeenCalledTimes(0);
-    
-    await act( async () => {
-      // react.getByRole("textbox").simulate("change", "Peter Hollands sings well");
-      fireEvent.change(
-        react.getByRole("textbox"),
-        {target: {
-          value: "Peter Hollands sings well"
-        }}
-      )
-      // react.getByRole("button").simulate("click");
-      fireEvent.click(
-        react.getByRole("button")
-      )
-    })
 
-    expect(socketMock.emit).toHaveBeenCalledWith("sendMessage", {
+    await act(async () => {
+      fireEvent.change(react.getByRole("textbox"), {
+        target: {
+          value: "Peter Hollands sings well",
+        },
+      });
+      fireEvent.click(react.getByRole("button"));
+    });
+
+    expect(socketMock.emit).toBeCalledWith("sendMessage", {
       username: "anonimous",
       message: "Peter Hollands sings well",
     });
+  });
 
+  it("Doesn't send empty messages", async () => {
+    const react = render(<BottomBar username="anonimous" />);
+
+    await act(async () => {
+      fireEvent.click(react.getByRole("button"));
+    });
+
+    expect(socketMock.emit).toHaveBeenCalledTimes(0);
   });
 });
