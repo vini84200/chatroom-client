@@ -9,7 +9,7 @@ const initialUsername = "anonimo"
 function App() {
   const [username, setUsername] = useState(initialUsername)
   return (
-    <div className="bg-gray-100 min-h-screen">
+    <div className="flex flex-col bg-gray-100 h-screen">
       <Messages />
       <BottomBar username={username} />
     </div>
