@@ -27,7 +27,7 @@ function BottomBar(props: Props) {
   })
 
   return (
-    <div className="object-bottom bg-red-500 p-3">
+    <div className="object-bottom p-3">
       <div>
         <h1>Username: {props.username}</h1>
       </div>

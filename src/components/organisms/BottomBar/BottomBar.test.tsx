@@ -6,17 +6,7 @@ import socketIOClient from "socket.io-client";
 import MockedSocket from "socket.io-mock";
 import { act } from "react-dom/test-utils";
 
-jest.mock("socket.io-client");
-
 describe("Username", () => {
-  let socketMock = {
-    disconnect: jest.fn(() => {}).mockName("Disconnect Mock"),
-  };
-
-  beforeEach(() => {
-    socketIOClient.mockReturnValue(socketMock).mockName("Connect Mock");
-  });
-
   afterEach(() => {
     jest.restoreAllMocks();
   });
@@ -31,20 +21,9 @@ describe("Username", () => {
 describe("Send Message Field", () => {
   let socketMock: any;
 
-  beforeEach(() => {
-    socketMock = {
-      disconnect: jest.fn(() => {}).mockName("Disconnect Mock"),
-      emit: jest.fn(() => {}).mockName("Emit Mock"),
-    };
-    socketIOClient.connect
-      .mockImplementation(() => {
-        return socketMock;
-      })
-      .mockName("Connect Mock");
-  });
-
   afterEach(() => {
-    jest.restoreAllMocks();
+    jest.clearAllMocks();
+
   });
 
   test("Has send button", () => {
@@ -62,21 +41,21 @@ describe("Send Message Field", () => {
   it("Connect with socket.io when create.", () => {
     const wrapper = shallow(<BottomBar username="anonimous" />);
     // console.log(socketIOClient)
-    expect(socketIOClient.connect).toHaveBeenCalled();
+    expect(socketIOClient.connect).toHaveBeenCalledTimes(1);
   });
   it("Disconects from socket when it finishes", () => {
     const wrapperMount = mount(<BottomBar username="anonimous" />);
-    expect(socketMock.disconnect).toHaveBeenCalledTimes(0);
+    expect(socketIOClient.mocks.connectMocks.disconnect).toHaveBeenCalledTimes(0);
     act(() => {
       wrapperMount.unmount();
     });
-    expect(socketMock.disconnect).toBeCalled();
+    expect(socketIOClient.mocks.connectMocks.disconnect).toBeCalled();
   });
 
   it("Sends a Message when the button is pressed", async () => {
     const react = render(<BottomBar username="anonimous" />);
 
-    expect(socketMock.emit).toHaveBeenCalledTimes(0);
+    expect(socketIOClient.mocks.connectMocks.emit).toHaveBeenCalledTimes(0);
 
     await act(async () => {
       fireEvent.change(react.getByRole("textbox"), {
@@ -87,7 +66,7 @@ describe("Send Message Field", () => {
       fireEvent.click(react.getByRole("button"));
     });
 
-    expect(socketMock.emit).toBeCalledWith("sendMessage", {
+    expect(socketIOClient.mocks.connectMocks.emit).toBeCalledWith("sendMessage", {
       username: "anonimous",
       message: "Peter Hollands sings well",
     });
@@ -100,6 +79,6 @@ describe("Send Message Field", () => {
       fireEvent.click(react.getByRole("button"));
     });
 
-    expect(socketMock.emit).toHaveBeenCalledTimes(0);
+    expect(socketIOClient.mocks.connectMocks.emit).toHaveBeenCalledTimes(0);
   });
 });
