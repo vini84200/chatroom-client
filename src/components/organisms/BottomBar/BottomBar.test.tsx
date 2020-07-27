@@ -5,7 +5,7 @@ import { shallow, ShallowWrapper, mount } from "enzyme";
 import socketIOClient from "socket.io-client";
 import MockedSocket from "socket.io-mock";
 import { act } from "react-dom/test-utils";
-
+import * as consts from '../../../consts'
 describe("Username", () => {
   afterEach(() => {
     jest.restoreAllMocks();
@@ -43,6 +43,13 @@ describe("Send Message Field", () => {
     // console.log(socketIOClient)
     expect(socketIOClient.connect).toHaveBeenCalledTimes(1);
   });
+
+  it("Connect with socket.io using the correct string when create.", () => {
+    const wrapper = shallow(<BottomBar username="anonimous" />);
+    // console.log(socketIOClient)
+    expect(socketIOClient.connect).toHaveBeenCalledWith(consts.CONNECTION_STRING);
+  });
+
   it("Disconects from socket when it finishes", () => {
     const wrapperMount = mount(<BottomBar username="anonimous" />);
     expect(socketIOClient.mocks.connectMocks.disconnect).toHaveBeenCalledTimes(0);

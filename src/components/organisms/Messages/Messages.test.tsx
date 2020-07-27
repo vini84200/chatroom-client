@@ -8,7 +8,7 @@ import Messages from "./Messages";
 import { act } from "react-dom/test-utils";
 import * as consts from "../../../consts"
 
-describe("Message Container", () => {
+describe("Messages Container", () => {
   beforeEach(() => {});
 
   afterEach(() => {
@@ -18,6 +18,11 @@ describe("Message Container", () => {
   it("Connects on start", () => {
     mount(<Messages />);
     expect(socketIOClient.connect).toBeCalled();
+  });
+
+  it("Called with the correct string", () => {
+    mount(<Messages />);
+    expect(socketIOClient.connect).toBeCalledWith(consts.CONNECTION_STRING);
   });
 
   it("Disconnects on unmount", async () => {

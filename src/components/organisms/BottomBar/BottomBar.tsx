@@ -1,17 +1,21 @@
 import React, { useState, useEffect, useRef } from "react";
 import socketIOClient from "socket.io-client";
 import { useFormik } from "formik";
+import * as consts from '../../../consts'
 interface Props {
   username: string;
 }
 
 function BottomBar(props: Props) {
-  let connection = useRef(socketIOClient.connect("localhost:8000"));
+  // Connection
+  let connection = useRef(socketIOClient.connect(consts.CONNECTION_STRING));
 
   useEffect(function () {
     return () => connection.current.disconnect();
   }, []);
 
+
+  // Formulario para enviar mensagens
   const {values, handleChange, handleBlur, handleSubmit} = useFormik({
       initialValues: {
           msg: "",

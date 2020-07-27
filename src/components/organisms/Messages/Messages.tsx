@@ -28,10 +28,14 @@ function Messages () {
     
     // Creates the connection and configures it
 
-    const connection = useRef(socketIOClient.connect("localhost:8000"))
+    const connection = useRef(socketIOClient.connect(consts.CONNECTION_STRING))
 
     useEffect(() => { // Disconects the socket on end.
-        return () => {connection.current.disconnect()}
+        return () => {
+            console.log("disconeting...")
+            connection.current.disconnect()
+            console.log("disconeted")
+        }
     }, [connection])
 
 
