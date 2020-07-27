@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useReducer } from 'react';
 import socketIOClient from "socket.io-client";
 import Message from '../../molecules/Message';
+import * as consts from '../../../consts'
 
 interface Message {
     message: string,
@@ -8,6 +9,8 @@ interface Message {
 }
 
 function Messages () {
+
+    // State for all the messages
 
     const [messages, dispacthMessages] = useReducer(
         function (state: Array<Message>, action) {
@@ -23,6 +26,7 @@ function Messages () {
         }, []
     )
     
+    // Creates the connection and configures it
 
     const connection = useRef(socketIOClient.connect("localhost:8000"))
 
@@ -30,10 +34,13 @@ function Messages () {
         return () => {connection.current.disconnect()}
     }, [connection])
 
+
+    // Recieves on the event of the messages
     useEffect(() => {
-        connection.current.on("message:back", (msgs: Message[]) => {
-            msgs.forEach(msg => dispacthMessages({type: "newMessage", payload: msg}))
-        })
+        connection.current.on(consts.ALL_MESSEGES, 
+            function (msgs: Message[]) {
+                msgs.forEach(msg => dispacthMessages({type: "newMessage", payload: msg}))
+            })
     }, [connection])
 
     return (

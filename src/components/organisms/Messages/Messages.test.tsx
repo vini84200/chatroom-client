@@ -6,6 +6,7 @@ import { render, RenderResult } from "@testing-library/react";
 import MockedSocket from "socket.io-mock";
 import Messages from "./Messages";
 import { act } from "react-dom/test-utils";
+import * as consts from "../../../consts"
 
 describe("Message Container", () => {
   beforeEach(() => {});
@@ -35,7 +36,7 @@ describe("Message Container", () => {
   it("Renders messages on recieve", async () => {
     const { getByText } = render(<Messages />);
     await act(async () => {
-      socketIOClient.socket.emit("message:back", [
+      socketIOClient.socket.emit(consts.ALL_MESSEGES, [
         { message: "something", username: "peter" },
         { message: "some2hing", username: "john" },
       ]);
