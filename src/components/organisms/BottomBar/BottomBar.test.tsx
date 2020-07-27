@@ -73,7 +73,7 @@ describe("Send Message Field", () => {
       fireEvent.click(react.getByRole("button"));
     });
 
-    expect(socketIOClient.mocks.connectMocks.emit).toBeCalledWith("sendMessage", {
+    expect(socketIOClient.mocks.connectMocks.emit).toBeCalledWith(consts.SEND_MESSEGE, {
       username: "anonimous",
       message: "Peter Hollands sings well",
     });

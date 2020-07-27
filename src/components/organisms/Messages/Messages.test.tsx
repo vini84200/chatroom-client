@@ -3,7 +3,6 @@ import { shallow, mount } from "enzyme";
 import socketIOClient from "socket.io-client";
 import { render, RenderResult } from "@testing-library/react";
 
-import MockedSocket from "socket.io-mock";
 import Messages from "./Messages";
 import { act } from "react-dom/test-utils";
 import * as consts from "../../../consts"

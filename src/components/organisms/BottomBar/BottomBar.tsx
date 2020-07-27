@@ -22,7 +22,7 @@ function BottomBar(props: Props) {
       },
       onSubmit: ({msg}, {setSubmitting}) => {
         if (!msg) return setSubmitting(false)
-        connection.current.emit("sendMessage", {
+        connection.current.emit(consts.SEND_MESSEGE, {
             username: props.username,
             message: msg
         })
