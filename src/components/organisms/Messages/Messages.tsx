@@ -63,7 +63,11 @@ function Messages () {
         <div className="flex-1">
             <h1>Messages</h1>
             <div>
-                {messages.map((msg: Message, index) => (<Message key={index} username={msg.username} message={msg.message} />))}
+                {messages.map(
+                    (msg: Message, index) => (
+                        <Message key={index} username={msg.username} message={msg.message} />
+                    )
+                )}
             </div>
         </div>
     );

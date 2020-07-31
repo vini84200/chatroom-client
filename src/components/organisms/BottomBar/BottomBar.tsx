@@ -13,7 +13,7 @@ function BottomBar(props: Props) {
 
   useEffect(function () {
     return () => connection.disconnect();
-  }, []);
+  }, [connection]);
 
 
   // Formulario para enviar mensagens
@@ -21,12 +21,13 @@ function BottomBar(props: Props) {
       initialValues: {
           msg: "",
       },
-      onSubmit: ({msg}, {setSubmitting}) => {
+      onSubmit: ({msg}, {setSubmitting, setFieldValue}) => {
         if (!msg) return setSubmitting(false)
         connection.emit(consts.SEND_MESSEGE, {
             username: props.username,
             message: msg
         })
+        setFieldValue("msg", "")
         setSubmitting(false)
       }
   })

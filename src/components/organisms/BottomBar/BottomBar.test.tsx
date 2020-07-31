@@ -87,4 +87,21 @@ describe("Send Message Field", () => {
 
     expect(socketIOClient.mocks.connectMocks.emit).toHaveBeenCalledTimes(0);
   });
+
+  it("Empties message field after submitting", async () => {
+    const react = render(<BottomBar username="anonimous" />);
+
+    expect(socketIOClient.mocks.connectMocks.emit).toHaveBeenCalledTimes(0);
+
+    await act(async () => {
+      fireEvent.change(react.getByRole("textbox"), {
+        target: {
+          value: "Peter Hollands sings well",
+        },
+      });
+      fireEvent.click(react.getByRole("button"));
+    });
+
+    expect(react.getByRole("textbox")).toHaveAttribute('value', '')
+  })
 });
