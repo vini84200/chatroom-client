@@ -6,6 +6,8 @@ import { render, RenderResult } from "@testing-library/react";
 import Messages from "./Messages";
 import { act } from "react-dom/test-utils";
 import * as consts from "../../../consts"
+import * as UseSocket from '../../../services/useSocket'
+
 
 describe("Messages Container", () => {
   beforeEach(() => {});
@@ -15,8 +17,9 @@ describe("Messages Container", () => {
   });
 
   it("Connects on start", () => {
+    const spy = jest.spyOn(UseSocket, "useSocket");
     mount(<Messages />);
-    expect(socketIOClient.connect).toBeCalled();
+    expect(spy).toHaveBeenCalled()
   });
 
   it("Called with the correct string", () => {

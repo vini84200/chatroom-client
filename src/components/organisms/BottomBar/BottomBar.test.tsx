@@ -1,11 +1,15 @@
 import React from "react";
-import { render, fireEvent } from "@testing-library/react";
-import BottomBar from "./BottomBar";
 import { shallow, ShallowWrapper, mount } from "enzyme";
+import { render, fireEvent } from "@testing-library/react";
+import { act } from "react-dom/test-utils";
 import socketIOClient from "socket.io-client";
 import MockedSocket from "socket.io-mock";
-import { act } from "react-dom/test-utils";
+
 import * as consts from '../../../consts'
+import BottomBar from "./BottomBar";
+import * as UseSocket from '../../../services/useSocket'
+
+
 describe("Username", () => {
   afterEach(() => {
     jest.restoreAllMocks();
@@ -38,16 +42,11 @@ describe("Send Message Field", () => {
     expect(wrapper.find("input")).toHaveLength(1);
   });
 
-  it("Connect with socket.io when create.", () => {
+  it("Call useSocket", () => {
+    const spy = jest.spyOn(UseSocket, "useSocket");
     const wrapper = shallow(<BottomBar username="anonimous" />);
     // console.log(socketIOClient)
-    expect(socketIOClient.connect).toHaveBeenCalledTimes(1);
-  });
-
-  it("Connect with socket.io using the correct string when create.", () => {
-    const wrapper = shallow(<BottomBar username="anonimous" />);
-    // console.log(socketIOClient)
-    expect(socketIOClient.connect).toHaveBeenCalledWith(consts.CONNECTION_STRING);
+    expect(spy).toHaveBeenCalled()
   });
 
   it("Disconects from socket when it finishes", () => {

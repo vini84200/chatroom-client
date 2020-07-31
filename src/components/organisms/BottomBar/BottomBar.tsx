@@ -2,16 +2,17 @@ import React, { useState, useEffect, useRef } from "react";
 import socketIOClient from "socket.io-client";
 import { useFormik } from "formik";
 import * as consts from '../../../consts'
+import { useSocket } from "../../../services/useSocket";
 interface Props {
   username: string;
 }
 
 function BottomBar(props: Props) {
   // Connection
-  let connection = useRef(socketIOClient.connect(consts.CONNECTION_STRING));
+  let connection = useSocket()
 
   useEffect(function () {
-    return () => connection.current.disconnect();
+    return () => connection.disconnect();
   }, []);
 
 
@@ -22,7 +23,7 @@ function BottomBar(props: Props) {
       },
       onSubmit: ({msg}, {setSubmitting}) => {
         if (!msg) return setSubmitting(false)
-        connection.current.emit(consts.SEND_MESSEGE, {
+        connection.emit(consts.SEND_MESSEGE, {
             username: props.username,
             message: msg
         })

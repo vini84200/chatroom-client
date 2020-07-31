@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useReducer } from 'react';
 import socketIOClient from "socket.io-client";
 import Message from '../../molecules/Message';
 import * as consts from '../../../consts'
+import { useSocket } from '../../../services/useSocket';
 
 interface Message {
     message: string,
@@ -28,12 +29,12 @@ function Messages () {
     
     // Creates the connection and configures it
 
-    const connection = useRef(socketIOClient.connect(consts.CONNECTION_STRING))
+    const connection = useSocket()
 
     useEffect(() => { // Disconects the socket on end.
         return () => {
             console.log("disconeting...")
-            connection.current.disconnect()
+            connection.disconnect()
             console.log("disconeted")
         }
     }, [connection])
@@ -41,7 +42,7 @@ function Messages () {
 
     // Recieves on the event of the messages
     useEffect(() => {
-        connection.current.on(consts.ALL_MESSEGES, 
+        connection.on(consts.ALL_MESSEGES, 
             function (msgs: Message[]) {
                 msgs.forEach(msg => dispacthMessages({type: "newMessage", payload: msg}))
             })
