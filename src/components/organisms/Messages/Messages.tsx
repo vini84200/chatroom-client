@@ -44,12 +44,13 @@ function Messages () {
     useEffect(() => {
         connection.on(consts.ALL_MESSEGES, 
             function (msgs: Message[]) {
+                console.log(msgs)
                 msgs.forEach(msg => dispacthMessages({type: "newMessage", payload: msg}))
             })
     }, [connection])
 
     return (
-        <div className="bg-blue-500 flex-1">
+        <div className="flex-1">
             <h1>Messages</h1>
             <div>
                 {messages.map((msg: Message, index) => (<Message key={index} username={msg.username} message={msg.message} />))}

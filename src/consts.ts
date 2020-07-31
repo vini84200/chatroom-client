@@ -1,4 +1,4 @@
-export const CONNECTION_STRING = "localhost:8100"
+export const CONNECTION_STRING = "10.0.0.104:8100"
 // Messege Events
 export const ALL_MESSEGES = "chatroom:all-messages"
 export const SEND_MESSEGE = "chatroom:send-message"
