@@ -40,7 +40,7 @@ describe("Messages Container", () => {
     expect(wrapper.find("Message")).toHaveLength(0);
   });
 
-  it("Renders messages on recieve", async () => {
+  it("Renders bulk messages on recieve", async () => {
     const { getByText } = render(<Messages />);
     await act(async () => {
       socketIOClient.socket.emit(consts.ALL_MESSEGES, [
@@ -53,4 +53,13 @@ describe("Messages Container", () => {
     expect(getByText("some2hing")).toBeInTheDocument();
     expect(getByText("john:")).toBeInTheDocument();
   });
+
+  it("Render message on receive", async () => {
+    const { getByText } = render(<Messages />);
+    await act(async () => {
+      socketIOClient.socket.emit(consts.RESEND_MESSAGE, { message: "Super interesting message that somonone needs to read.", username: "john1290" });
+    });
+    expect(getByText("Super interesting message that somonone needs to read.")).toBeInTheDocument();
+    expect(getByText("john1290:")).toBeInTheDocument();
+  })
 });

@@ -33,20 +33,30 @@ function Messages () {
 
     useEffect(() => { // Disconects the socket on end.
         return () => {
-            console.log("disconeting...")
             connection.disconnect()
-            console.log("disconeted")
         }
     }, [connection])
 
 
     // Recieves on the event of the messages
     useEffect(() => {
+        let mounted = true;
         connection.on(consts.ALL_MESSEGES, 
             function (msgs: Message[]) {
-                console.log(msgs)
+                if (!mounted) return
                 msgs.forEach(msg => dispacthMessages({type: "newMessage", payload: msg}))
             })
+        return () => {mounted = false}
+    }, [connection])
+
+    useEffect(() => {
+        let mounted = true;
+        connection.on(consts.RESEND_MESSAGE, 
+            function (msg: Message) {
+                if (!mounted) return
+                dispacthMessages({type: "newMessage", payload: msg})
+            })
+        return () => {mounted = false}
     }, [connection])
 
     return (
