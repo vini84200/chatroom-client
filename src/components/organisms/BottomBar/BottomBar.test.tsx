@@ -8,6 +8,7 @@ import MockedSocket from "socket.io-mock";
 import * as consts from '../../../consts'
 import BottomBar from "./BottomBar";
 import * as UseSocket from '../../../services/useSocket'
+import { ProvideUser } from "../../../services/useUsername";
 
 
 describe("Username", () => {
@@ -16,10 +17,8 @@ describe("Username", () => {
   });
 
   test("Username is shown in the bottom", () => {
-    let app = render(<BottomBar username="peter" />);
-    expect(app.getByText("Username: peter")).toBeInTheDocument();
-    app = render(<BottomBar username="john1223" />);
-    expect(app.getByText("Username: john1223")).toBeInTheDocument();
+    let app = render(<ProvideUser><BottomBar /></ProvideUser>);
+    expect(app.getByText("Username: anonimo")).toBeInTheDocument();
   });
 });
 describe("Send Message Field", () => {
@@ -59,7 +58,7 @@ describe("Send Message Field", () => {
   });
 
   it("Sends a Message when the button is pressed", async () => {
-    const react = render(<BottomBar username="anonimous" />);
+    const react = render(<BottomBar />);
 
     expect(socketIOClient.mocks.connectMocks.emit).toHaveBeenCalledTimes(0);
 
@@ -73,7 +72,7 @@ describe("Send Message Field", () => {
     });
 
     expect(socketIOClient.mocks.connectMocks.emit).toBeCalledWith(consts.SEND_MESSEGE, {
-      username: "anonimous",
+      username: "anonimo",
       message: "Peter Hollands sings well",
     });
   });

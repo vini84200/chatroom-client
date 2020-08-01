@@ -2,13 +2,16 @@ import React, { useEffect } from "react";
 import { useFormik } from "formik";
 import * as consts from '../../../consts'
 import { useSocket } from "../../../services/useSocket";
+import { useUser } from "../../../services/useUsername";
 interface Props {
-  username: string;
+  
 }
 
 function BottomBar(props: Props) {
   // Connection
   let connection = useSocket()
+
+  const user = useUser()
 
   useEffect(function () {
     return () => connection.disconnect();
@@ -23,7 +26,7 @@ function BottomBar(props: Props) {
       onSubmit: ({msg}, {setSubmitting, setFieldValue}) => {
         if (!msg) return setSubmitting(false)
         connection.emit(consts.SEND_MESSEGE, {
-            username: props.username,
+            username: user.username,
             message: msg
         })
         setFieldValue("msg", "")
@@ -34,7 +37,7 @@ function BottomBar(props: Props) {
   return (
     <div className="object-bottom p-3 bg-blue-900 text-gray-300">
       <div>
-        <span>Username: {props.username}</span>
+        <span>Username: {user.username}</span>
       </div>
       <div>
         <form onSubmit={handleSubmit} className="flex" >
