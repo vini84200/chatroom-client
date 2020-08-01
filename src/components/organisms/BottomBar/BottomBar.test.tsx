@@ -33,7 +33,7 @@ describe("Send Message Field", () => {
   test("Has send button", () => {
     const wrapper = shallow(<BottomBar username="anonimous" />);
 
-    expect(wrapper.find("button").text()).toBe("Send");
+    expect(wrapper.find("button").text()).toBe("Enviar");
   });
 
   test("Has message bar", () => {

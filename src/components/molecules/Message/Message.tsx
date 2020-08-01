@@ -7,8 +7,8 @@ interface Props {
 
 function Message(props: Props) {
     return (
-        <div>
-            <strong>{props.username}: </strong> {props.message}
+        <div className="py-2">
+            <strong className="pr-4">{props.username}: </strong> {props.message}
         </div>
     );
 };

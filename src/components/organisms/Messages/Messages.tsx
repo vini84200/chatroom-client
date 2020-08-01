@@ -62,8 +62,7 @@ function Messages () {
     }, [connection])
 
     return (
-        <div className="flex-1">
-            <h1>Messages</h1>
+        <div className="flex-1 overflow-y-visible overflow-x-hidden bg-gray-800 text-gray-200 px-4">
             <div>
                 {messages.map(
                     (msg: Message, index) => (
