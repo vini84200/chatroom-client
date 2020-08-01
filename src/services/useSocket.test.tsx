@@ -1,9 +1,7 @@
 import React from 'react'
-import testHook, {TestHook} from '../utils/testing/testHook'
-import {ProvideSocket, useSocket} from './useSocket';
-import * as consts from '../consts'
+import {TestHook} from '../utils/testing/testHook'
+import {useSocket} from './useSocket';
 import { mount } from 'enzyme';
-import socketIOClient from "socket.io-client";
 
 
 let socketHook: SocketIOClient.Socket | null;

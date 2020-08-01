@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
-import socketIOClient from "socket.io-client";
+import React, { useEffect } from "react";
 import { useFormik } from "formik";
 import * as consts from '../../../consts'
 import { useSocket } from "../../../services/useSocket";
@@ -35,7 +34,7 @@ function BottomBar(props: Props) {
   return (
     <div className="object-bottom p-3">
       <div>
-        <h1>Username: {props.username}</h1>
+        <span>Username: {props.username}</span>
       </div>
       <div>
         <form onSubmit={handleSubmit} >

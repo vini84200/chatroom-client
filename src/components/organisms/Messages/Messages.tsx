@@ -1,5 +1,4 @@
-import React, { useRef, useEffect, useReducer } from 'react';
-import socketIOClient from "socket.io-client";
+import React, { useEffect, useReducer } from 'react';
 import Message from '../../molecules/Message';
 import * as consts from '../../../consts'
 import { useSocket } from '../../../services/useSocket';
@@ -21,6 +20,8 @@ function Messages () {
                         ...state,
                         action.payload
                     ]
+                case "clear":
+                    return []
                 default:
                     return state
             }
@@ -44,6 +45,7 @@ function Messages () {
         connection.on(consts.ALL_MESSEGES, 
             function (msgs: Message[]) {
                 if (!mounted) return
+                dispacthMessages({type: "clear"})
                 msgs.forEach(msg => dispacthMessages({type: "newMessage", payload: msg}))
             })
         return () => {mounted = false}

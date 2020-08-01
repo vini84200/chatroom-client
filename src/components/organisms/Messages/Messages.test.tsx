@@ -54,6 +54,29 @@ describe("Messages Container", () => {
     expect(getByText("john:")).toBeInTheDocument();
   });
 
+  it("Removes old messeges on bulk", async () => {
+    const { getByText, queryAllByText } = render(<Messages />);
+    await act(async () => {
+      socketIOClient.socket.emit(consts.ALL_MESSEGES, [
+        { message: "something", username: "peter" },
+        { message: "some2hing", username: "john" },
+      ]);
+      socketIOClient.socket.emit(consts.ALL_MESSEGES, [
+        { message: "asjfsdhn", username: "kan" },
+        { message: "xcbv", username: "non" },
+      ]);
+    });
+    expect(queryAllByText("something")).toHaveLength(0);
+    expect(queryAllByText("peter:")).toHaveLength(0);
+    expect(queryAllByText("some2hing")).toHaveLength(0)
+    expect(queryAllByText("john:")).toHaveLength(0)
+    
+    expect(getByText("asjfsdhn")).toBeInTheDocument();
+    expect(getByText("kan:")).toBeInTheDocument();
+    expect(getByText("xcbv")).toBeInTheDocument();
+    expect(getByText("non:")).toBeInTheDocument();
+  });
+
   it("Render message on receive", async () => {
     const { getByText } = render(<Messages />);
     await act(async () => {
