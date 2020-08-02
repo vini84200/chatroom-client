@@ -10,7 +10,7 @@ export default (callback: Function, Provider: undefined| React.FunctionComponent
   if (Provider) {
     mount(
     <Provider>
-    <TestHook callback={callback} />
+      <TestHook callback={callback} />
     </Provider>);
     return
   }

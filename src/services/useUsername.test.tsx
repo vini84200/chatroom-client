@@ -3,9 +3,11 @@ import { useUser, ProvideUser, User } from './useUsername';
 import { act } from 'react-dom/test-utils';
 
 let user: User;
+let userTwo: User;
 beforeEach(() => {
     testHook(() => {
         user = useUser()
+        userTwo = useUser()
     }, ProvideUser)
 })
 
@@ -19,5 +21,6 @@ describe("User Hook", () => {
             user.setUsername("peter")
         })
         expect(user.username).toBe("peter")
+        expect(userTwo.username).toBe("peter")
     })
 })

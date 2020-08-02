@@ -1,11 +1,11 @@
 import React, { createContext, useState, useContext } from "react";
 
 export interface User {
-    username: String,
+    username: string,
     setUsername: Function
 }
 
-const userContext = createContext<User>({username: "anonimo"})
+const userContext = createContext<User>({username: "anonimo", setUsername: ()=>{}})
 
 export function ProvideUser({children}){
     const user = useProvideUser()

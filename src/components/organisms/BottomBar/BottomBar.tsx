@@ -3,6 +3,7 @@ import { useFormik } from "formik";
 import * as consts from '../../../consts'
 import { useSocket } from "../../../services/useSocket";
 import { useUser } from "../../../services/useUsername";
+import Username from "../../molecules/Username/Username";
 interface Props {
   
 }
@@ -37,7 +38,7 @@ function BottomBar(props: Props) {
   return (
     <div className="object-bottom p-3 bg-blue-900 text-gray-300">
       <div>
-        <span>Username: {user.username}</span>
+        <Username />
       </div>
       <div>
         <form onSubmit={handleSubmit} className="flex" >
